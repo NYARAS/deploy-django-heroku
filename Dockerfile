@@ -1,11 +1,12 @@
-FROM python:3.5
-LABEL maintainer mlabouardy
 
-COPY requirements.txt /app
-ADD app /
+FROM python:3
+LABEL maintainer calvine
 
-WORKDIR /app
+ENV PYTHONUNBUFFERED 1
 
-EXPOSE 5000
-
-CMD python app.py
+RUN mkdir /code
+WORKDIR /code
+ADD requirements.txt /code/
+RUN pip install -r requirements.txt
+ADD . /code/
+CMD sh init.sh && python3 manage.py runserver 0.0.0.0:8000
